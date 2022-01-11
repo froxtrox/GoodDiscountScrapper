@@ -1,3 +1,4 @@
+using GoodDiscountScrapper.Interfaces;
 using GoodDiscountScrapper.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -8,6 +9,8 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace GoodDiscountScrapper
@@ -24,8 +27,18 @@ namespace GoodDiscountScrapper
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLogging();
             services.AddRazorPages();
+
+            services.AddFluentEmail(Configuration["email_address"])
+                .AddRazorRenderer()
+                .AddSmtpSender(new SmtpClient("smtp.gmail.com", 587){
+                    Credentials = new NetworkCredential(Configuration["email_address"], Configuration["email_password"]),
+                    EnableSsl = true
+});
+
             services.AddScoped<IScrapper, HTMLScrapper>();
+            services.AddScoped<IMailService, EmailService>();
             services.AddScoped<IWebScrappingProcessor, DealDiscountProcessor>();
         }
 

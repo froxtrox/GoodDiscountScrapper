@@ -5,16 +5,20 @@ using System.Collections.Generic;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
 using GoodDiscountScrapper.Extensions;
+using GoodDiscountScrapper.Interfaces;
 
 namespace GoodDiscountScrapper.Services
 {
     public class DealDiscountProcessor : IWebScrappingProcessor
     {
+        public const string TargetBaseUrl = "https://www.footlocker.co.uk/";
         private readonly IScrapper _scrapper;
-        public const string TargetBaseUrl = "";
-        public DealDiscountProcessor(IScrapper scrapper)
+        private readonly IMailService _emailService;
+
+        public DealDiscountProcessor(IScrapper scrapper, IMailService emailService)
         {
             _scrapper = scrapper;
+            _emailService = emailService;
         }
 
         public async Task<IEnumerable<DiscountInfo>> Process(string url)
@@ -27,6 +31,9 @@ namespace GoodDiscountScrapper.Services
             {
                 list.Add(GetDiscountInfoFromNode(node));
             }
+
+
+            await _emailService.Send(list);
 
             return list;
         }

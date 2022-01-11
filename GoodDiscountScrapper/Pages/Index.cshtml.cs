@@ -1,4 +1,5 @@
-﻿using GoodDiscountScrapper.Services;
+﻿using GoodDiscountScrapper.Interfaces;
+using GoodDiscountScrapper.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Configuration;
@@ -14,12 +15,15 @@ namespace GoodDiscountScrapper.Pages
     {
         private readonly ILogger<IndexModel> _logger;
         private readonly IWebScrappingProcessor _processor;
- 
+        private readonly IMailService _mailService;
+
+
 
         public IndexModel(ILogger<IndexModel> logger, IWebScrappingProcessor processor)
         {
             _logger = logger;
             _processor = processor;
+
         }
 
         public async Task<IActionResult> OnGet()
