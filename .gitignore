@@ -363,3 +363,7 @@ MigrationBackup/
 FodyWeavers.xsd
 
 dummyFLResponse.txt
+
+appsettings.*
+appsettings.Development.json
+appsettings.json
