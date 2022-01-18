@@ -4,9 +4,9 @@
     {
         public string Name { get; set; }
         public string Link { get; set; }
-        public string Category { get; set; } = "Shoe";
+        public string Category { get; set; }
 
-        public string Brand { get; set; } = "Jordan";
+        public string Brand { get; set; }
 
         public string OriginalPrice { get; set; }
 
