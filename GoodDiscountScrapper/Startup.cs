@@ -1,4 +1,5 @@
 using GoodDiscountScrapper.Interfaces;
+using GoodDiscountScrapper.Options;
 using GoodDiscountScrapper.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -24,6 +25,7 @@ namespace GoodDiscountScrapper
         {
             services.AddLogging();
             services.AddRazorPages();
+            services.Configure<SearchInfoOptions>(Configuration.GetSection("SearchInfo"));
 
             services.AddFluentEmail(Configuration["email_address"])
                 .AddRazorRenderer()
@@ -31,6 +33,7 @@ namespace GoodDiscountScrapper
                     Credentials = new NetworkCredential(Configuration["email_address"], Configuration["email_password"]),
                     EnableSsl = true
 });
+
 
             services.AddScoped<IScrapper, HTMLScrapper>();
             services.AddScoped<IMailService, EmailService>();
