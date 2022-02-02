@@ -8,7 +8,7 @@ using GoodDiscountScrapper.Extensions;
 using GoodDiscountScrapper.Interfaces;
 using Microsoft.Extensions.Options;
 using GoodDiscountScrapper.Options;
-
+ 
 namespace GoodDiscountScrapper.Services
 {
     public class DealDiscountProcessor : IWebScrappingProcessor
@@ -36,10 +36,14 @@ namespace GoodDiscountScrapper.Services
                 list.Add(GetDiscountInfoFromNode(node));
             }
 
-            await _emailService.Send(list);
+            //Get top 3 discounts
+            list = list.OrderByDescending(x => x.Discount).Take(3).ToList();
 
+            //await _emailService.Send(list);
+ 
             return list;
         }
+ 
 
         public void Save()
         {

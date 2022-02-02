@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Net;
 using System.Net.Mail;
+ 
 
 namespace GoodDiscountScrapper
 {
@@ -26,7 +27,7 @@ namespace GoodDiscountScrapper
             services.AddLogging();
             services.AddRazorPages();
             services.Configure<SearchInfoOptions>(Configuration.GetSection("SearchInfo"));
-
+            services.Configure<TwilioAccountOptions>(Configuration.GetSection("TwilioCredential"));
             services.AddFluentEmail(Configuration["email_address"])
                 .AddRazorRenderer()
                 .AddSmtpSender(new SmtpClient("smtp.gmail.com", 587){
